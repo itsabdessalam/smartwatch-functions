@@ -34,7 +34,7 @@ exports.handler = async (event, context, callback) => {
     axios();
     const response = await axios.post(
       `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`,
-      data,
+      JSON.stringify(data),
       {
         headers: {
           Authorization: `apikey ${API_KEY}`,
