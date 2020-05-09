@@ -26,15 +26,14 @@ exports.handler = async (event, context, callback) => {
     const API_KEY = process.env.MAILCHIMP_API_KEY;
     const DATACENTER = API_KEY.split("-")[1];
 
-    const data = {
+    const data = JSON.stringify({
       email_address: email,
       status: "subscribed",
-    };
+    });
 
-    axios();
     const response = await axios.post(
       `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`,
-      JSON.stringify(data),
+      data,
       {
         headers: {
           Authorization: `apikey ${API_KEY}`,
