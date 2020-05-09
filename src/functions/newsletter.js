@@ -1,8 +1,6 @@
 const axios = require("axios");
 
 exports.handler = async (event, context, callback) => {
-  const { email } = JSON.parse(event.body);
-
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 400,
@@ -11,6 +9,8 @@ exports.handler = async (event, context, callback) => {
       }),
     };
   }
+
+  const { email } = JSON.parse(event.body);
 
   if (!email) {
     return {
@@ -26,10 +26,10 @@ exports.handler = async (event, context, callback) => {
     const API_KEY = process.env.MAILCHIMP_API_KEY;
     const DATACENTER = API_KEY.split("-")[1];
 
-    const data = JSON.stringify({
+    const data = {
       email_address: email,
       status: "subscribed",
-    });
+    };
 
     const response = await axios.post(
       `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`,
