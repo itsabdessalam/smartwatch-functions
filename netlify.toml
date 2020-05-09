@@ -1,0 +1,4 @@
+
+[build]
+  Functions = "functions"
+  Command = "npm run build"
