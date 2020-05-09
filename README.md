@@ -1,1 +1,1 @@
-# smartwatch-functions
+# Smartwatch functions
