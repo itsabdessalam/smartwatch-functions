@@ -1,4 +1,4 @@
-const fetch = require("isomorphic-unfetch");
+const axios = require("axios");
 
 exports.handler = async (event, context, callback) => {
   const { email } = JSON.parse(event.body);
@@ -31,15 +31,15 @@ exports.handler = async (event, context, callback) => {
       status: "subscribed",
     };
 
-    const response = await fetch(
+    axios();
+    const response = await axios.post(
       `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`,
+      data,
       {
-        body: JSON.stringify(data),
         headers: {
           Authorization: `apikey ${API_KEY}`,
           "Content-Type": "application/json",
         },
-        method: "POST",
       }
     );
 
