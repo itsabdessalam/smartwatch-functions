@@ -1,14 +1,24 @@
-import fetch from "isomorphic-unfetch";
+const fetch = require("isomorphic-unfetch");
 
-export default async (req, res) => {
-  const { email } = req.body;
+exports.handler = async (event, context, callback) => {
+  const { email } = JSON.parse(event.body);
 
   if (event.httpMethod !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        error: "Method not allowed",
+      }),
+    };
   }
 
   if (!email) {
-    return res.status(400).json({ error: "Email is required" });
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        error: "Email is required",
+      }),
+    };
   }
 
   try {
@@ -26,8 +36,6 @@ export default async (req, res) => {
       {
         body: JSON.stringify(data),
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type",
           Authorization: `apikey ${API_KEY}`,
           "Content-Type": "application/json",
         },
@@ -36,13 +44,24 @@ export default async (req, res) => {
     );
 
     if (response.status >= 400) {
-      return res.status(400).json({
-        error: `There was an error subscribing to the newsletter. Please send an email at [hello@abdessalam.dev]`,
-      });
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: `There was an error subscribing to the newsletter. Please send an email at [hello@abdessalam.dev]`,
+        }),
+      };
     }
-
-    return res.status(201).json({ error: "" });
   } catch (error) {
-    return res.status(500).json({ error: error.message || error.toString() });
+    return {
+      statusCode: error.statusCode || 500,
+      body: JSON.stringify({
+        error: error.message || error.toString(),
+      }),
+    };
   }
+
+  return {
+    statusCode: 201,
+    body: JSON.stringify({ error: "" }),
+  };
 };
