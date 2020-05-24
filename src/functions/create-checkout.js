@@ -1,30 +1,30 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // Retry to prevent network errors early
 stripe.setMaxNetworkRetries(4);
 
 const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "Origin, X-Requested-With, Content-Type, Accept",
-  "Content-Type": "application/json",
-  "Access-Control-Allow-Methods": "*",
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers':
+    'Origin, X-Requested-With, Content-Type, Accept',
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Methods': '*',
 };
 
 exports.handler = async (event, context, callback) => {
   // Handling preflight request
-  if (event.httpMethod === "OPTIONS") {
+  if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
       headers,
-      body: "",
+      body: '',
     };
   }
 
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 400,
       body: JSON.stringify({
-        error: "Method not allowed",
+        error: 'Method not allowed',
       }),
     };
   }
@@ -36,7 +36,7 @@ exports.handler = async (event, context, callback) => {
       statusCode: 400,
       headers,
       body: JSON.stringify({
-        error: "Items must not be empty",
+        error: 'Items must not be empty',
       }),
     };
   }
@@ -52,25 +52,25 @@ exports.handler = async (event, context, callback) => {
 
     const metadata = {
       items: JSON.stringify(
-        items.map((item) => {
+        items.map(item => {
           return {
             name: item.name,
             sku: item.sku,
             slug: item.slug,
           };
-        })
+        }),
       ),
     };
 
     const session = await stripe.checkout.sessions.create({
       ...(customerEmail && { customer_email: customerEmail }),
       ...(clientReferenceId && { client_reference_id: clientReferenceId }),
-      success_url: "https://smartwatch.abdessalam.dev/checkout-success",
-      cancel_url: "https://smartwatch.abdessalam.dev/cart",
-      payment_method_types: ["card"],
-      billing_address_collection: "auto",
+      success_url: 'https://smartwatch.abdessalam.dev/checkout-success',
+      cancel_url: 'https://smartwatch.abdessalam.dev/cart',
+      payment_method_types: ['card'],
+      billing_address_collection: 'auto',
       shipping_address_collection: {
-        allowed_countries: ["FR"],
+        allowed_countries: ['FR'],
       },
       line_items: lineItems,
       metadata: metadata,

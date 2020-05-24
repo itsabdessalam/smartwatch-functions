@@ -1,28 +1,28 @@
-const axios = require("axios");
+const axios = require('axios');
 
 const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "Origin, X-Requested-With, Content-Type, Accept",
-  "Content-Type": "application/json",
-  "Access-Control-Allow-Methods": "*",
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers':
+    'Origin, X-Requested-With, Content-Type, Accept',
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Methods': '*',
 };
 
 exports.handler = async (event, context, callback) => {
   // Handling preflight request
-  if (event.httpMethod === "OPTIONS") {
+  if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
       headers,
-      body: "",
+      body: '',
     };
   }
 
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 400,
       body: JSON.stringify({
-        error: "Method not allowed",
+        error: 'Method not allowed',
       }),
     };
   }
@@ -34,7 +34,7 @@ exports.handler = async (event, context, callback) => {
       statusCode: 400,
       headers,
       body: JSON.stringify({
-        error: "Email is required",
+        error: 'Email is required',
       }),
     };
   }
@@ -42,11 +42,11 @@ exports.handler = async (event, context, callback) => {
   try {
     const LIST_ID = process.env.MAILCHIMP_LIST_ID;
     const API_KEY = process.env.MAILCHIMP_API_KEY;
-    const DATACENTER = API_KEY.split("-")[1];
+    const DATACENTER = API_KEY.split('-')[1];
 
     const data = {
       email_address: email,
-      status: "subscribed",
+      status: 'subscribed',
     };
 
     const response = await axios.post(
@@ -57,7 +57,7 @@ exports.handler = async (event, context, callback) => {
           ...headers,
           Authorization: `apikey ${API_KEY}`,
         },
-      }
+      },
     );
 
     if (response.status >= 400) {
@@ -66,7 +66,7 @@ exports.handler = async (event, context, callback) => {
         headers,
         body: JSON.stringify({
           error:
-            "There was an error subscribing to the newsletter. Please send an email at [hello@abdessalam.dev]",
+            'There was an error subscribing to the newsletter. Please send an email at [hello@abdessalam.dev]',
         }),
       };
     }
@@ -75,7 +75,7 @@ exports.handler = async (event, context, callback) => {
       statusCode: 201,
       headers,
       body: JSON.stringify({
-        data: "created",
+        data: 'created',
       }),
     };
   } catch (error) {
