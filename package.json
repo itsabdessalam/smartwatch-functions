@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "netlify-lambda build src/functions",
-    "test": "echo \"Error: no test specified\" && exit 1",    
+    "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"**/*.{js,json,md}\""
   },
   "repository": {
@@ -21,7 +21,8 @@
   "homepage": "https://github.com/itsabdessalam/smartwatch-functions#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "netlify-lambda": "^1.6.3"
+    "netlify-lambda": "^1.6.3",
+    "stripe": "^8.52.0"
   },
   "devDependencies": {
     "eslint": "^5.15.3",
