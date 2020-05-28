@@ -42,7 +42,7 @@ exports.handler = async (event, context, callback) => {
   }
 
   try {
-    const lineItems = items.map(({ sku, slug, ...item }) => {
+    const lineItems = items.map(({ id, sku, slug, ...item }) => {
       return {
         ...item,
         // security check to set max product quantity to 10
@@ -54,6 +54,7 @@ exports.handler = async (event, context, callback) => {
       items: JSON.stringify(
         items.map(item => {
           return {
+            id: item.id,
             name: item.name,
             sku: item.sku,
             slug: item.slug,

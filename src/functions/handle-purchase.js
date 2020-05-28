@@ -1,6 +1,8 @@
 const axios = require('axios');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const stockAPI = process.env.STOCK_API;
+const stockAPIAuthorization = process.env.STOCK_API_AUTHORIZATION;
 const orderAPI = process.env.ORDER_API;
 const orderAPIToken = process.env.ORDER_API_TOKEN;
 
@@ -87,6 +89,13 @@ exports.handler = async (event, context, callback) => {
       headers: {
         ...headers,
         token: `${orderAPIToken}`,
+      },
+    });
+
+    await axios.post(`${stockAPI}`, data, {
+      headers: {
+        ...headers,
+        authorization: `${stockAPIAuthorization}`,
       },
     });
 
