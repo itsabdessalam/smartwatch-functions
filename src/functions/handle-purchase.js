@@ -62,6 +62,7 @@ exports.handler = async (event, context, callback) => {
     displayItems.forEach(displayItem => {
       metadataItems.forEach(metadataItem => {
         if (displayItem.custom.name === metadataItem.name) {
+          displayItem.id = metadataItem.id;
           displayItem.sku = metadataItem.sku;
           displayItem.slug = metadataItem.slug;
           displayItem.name = metadataItem.name;
