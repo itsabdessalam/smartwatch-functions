@@ -93,12 +93,12 @@ exports.handler = async (event, context, callback) => {
       },
     });
 
-    // await axios.post(`${stockAPI}`, data, {
-    //   headers: {
-    //     ...headers,
-    //     authorization: `${stockAPIAuthorization}`,
-    //   },
-    // });
+    await axios.post(`${stockAPI}`, data, {
+      headers: {
+        ...headers,
+        authorization: `${stockAPIAuthorization}`,
+      },
+    });
 
     return {
       statusCode: 200,
@@ -106,8 +106,6 @@ exports.handler = async (event, context, callback) => {
       body: JSON.stringify({
         received: true,
         data,
-        stockAPIAuthorization,
-        stockAPI,
       }),
     };
   } catch (error) {
