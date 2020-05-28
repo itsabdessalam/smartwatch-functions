@@ -103,7 +103,12 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ received: true, data }),
+      body: JSON.stringify({
+        received: true,
+        data,
+        stockAPIAuthorization,
+        stockAPI,
+      }),
     };
   } catch (error) {
     return {
