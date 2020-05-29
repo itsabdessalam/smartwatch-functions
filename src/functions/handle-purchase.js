@@ -51,6 +51,7 @@ exports.handler = async (event, context, callback) => {
       line2,
       city,
       state,
+      // eslint-disable-next-line camelcase
       postal_code,
       country,
     } = order.shipping.address;

@@ -2,9 +2,8 @@ module.exports = {
   extends: ['standard', 'prettier', 'prettier/standard'],
   plugins: ['import', 'prettier', 'standard'],
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 9,
   },
-
   env: {
     browser: true,
     node: true,
