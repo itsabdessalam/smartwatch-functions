@@ -5,6 +5,7 @@ const stockAPI = process.env.STOCK_API;
 const stockAPIAuthorization = process.env.STOCK_API_AUTHORIZATION;
 const orderAPI = process.env.ORDER_API;
 const orderAPIToken = process.env.ORDER_API_TOKEN;
+const { mapDisplayItems } = require('../utils/helpers');
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -56,22 +57,10 @@ exports.handler = async (event, context, callback) => {
       country,
     } = order.shipping.address;
 
-    const displayItems = order.display_items;
-    const metadataItems = JSON.parse(order.metadata.items);
-
-    // Map display items with received metadata
-    displayItems.forEach(displayItem => {
-      metadataItems.forEach(metadataItem => {
-        if (displayItem.custom.name === metadataItem.name) {
-          displayItem.id = metadataItem.id;
-          displayItem.sku = metadataItem.sku;
-          displayItem.slug = metadataItem.slug;
-          displayItem.name = metadataItem.name;
-        }
-      });
-      delete displayItem.custom;
-      delete displayItem.type;
-    });
+    const displayItems = mapDisplayItems(
+      order.display_items,
+      JSON.parse(order.metadata.items),
+    );
 
     const user = order.client_reference_id;
     const address = {
