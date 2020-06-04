@@ -28,7 +28,7 @@ const mapDisplayItems = (items, itemsToMapWith) => {
           sku: itemToMapWith.sku,
           slug: itemToMapWith.slug,
           name: itemToMapWith.name,
-          amount: item.amout,
+          amount: item.amount,
           currency: item.currency,
           quantity: item.quantity,
         });
