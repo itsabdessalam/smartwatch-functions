@@ -28,6 +28,7 @@ exports.handler = async (event, context, callback) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 400,
+      headers,
       body: JSON.stringify({
         error: 'Method not allowed',
       }),
